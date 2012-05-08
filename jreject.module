@@ -31,7 +31,7 @@ function jreject_init() {
           reject: {  
               $rejects
           },
-          imagePath: '$path_to_jreject/images/',
+          imagePath: '/$path_to_jreject/images/',
           $opts
         }); 
         return false;  
