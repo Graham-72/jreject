@@ -17,6 +17,7 @@ function jreject_init() {
     return;
   }
   $path_to_jreject = drupal_get_path("module", "jreject") . "/jReject";
+  $abs_path_to_jreject = base_path() . $path_to_jreject;
   drupal_add_css($path_to_jreject . "/css/jquery.reject.css");
   drupal_add_js($path_to_jreject . "/js/jquery.reject.js");
   $rejects = jreject_get_rejects();
@@ -31,7 +32,7 @@ function jreject_init() {
           reject: {  
               $rejects
           },
-          imagePath: '/$path_to_jreject/images/',
+          imagePath: '$abs_path_to_jreject/images/',
           $opts
         }); 
         return false;  
