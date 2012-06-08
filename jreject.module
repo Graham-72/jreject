@@ -139,7 +139,7 @@ function jreject_get_options() {
     else {
       $value = is_numeric($value) ? $value : '"' . $value . '"';
     }
-    $out[] = $param . ": " . $value;
+    $out[] = $param . ": " . str_replace(array("\r\n", "\n", "\r"), "<br />", $value);
   }
   return implode(", ", $out);
 }
