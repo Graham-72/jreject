@@ -40,7 +40,7 @@ function jreject_init() {
     }
   })(jQuery);
 EOT;
-  drupal_add_js($js, array("type" => "inline", "scope" => "footer"));
+  drupal_add_js($js, array("type" => "inline"));
 }
 
 /**
