@@ -62,7 +62,10 @@ To be written
 
 -- TROUBLESHOOTING --
 
-To be written
+Some users have reported issues with their own git repos acting strangely when
+cloning the jReject library (see https://drupal.org/node/1632356). If that
+happens to you, consider simply downloading the library ZIP from
+http://jreject.turnwheel.com/
 
 
 -- FAQ --
