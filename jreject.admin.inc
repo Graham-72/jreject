@@ -98,7 +98,7 @@ function jreject_configure_options() {
     '#type' => 'textfield',
     '#size' => 10,
     '#maxlength' => 7,
-    '#default_value' => $conf['overlayBgColor'] ? $conf['overlayBgColor'] : '#000',
+    '#default_value' => $conf['bgcolor'] ? $conf['bgcolor'] : '#000',
     '#title' => t('Overlay background color'),
     '#description' => "Enter a custom overlay background color in hex.",
   );

@@ -17,30 +17,25 @@ function jreject_init() {
     return;
   }
   $path_to_jreject = drupal_get_path("module", "jreject") . "/jReject";
-  $abs_path_to_jreject = base_path() . $path_to_jreject;
   drupal_add_css($path_to_jreject . "/css/jquery.reject.css");
   drupal_add_js($path_to_jreject . "/js/jquery.reject.js");
   $rejects = jreject_get_rejects();
   $opts = jreject_get_options();
   $browser_alternatives = jreject_get_browser_alternatives();
   $js = <<<EOT
-  (function($) {
-    Drupal.behaviors.jReject = {
-      attach: function (context, settings) {
-        $.reject({
-        display: [$browser_alternatives],
-          reject: {  
-              $rejects
-          },
-          imagePath: '$abs_path_to_jreject/images/',
-          $opts
-        }); 
-        return false;  
-      }
+    Drupal.behaviors.jReject = function (context, settings) {
+      $.reject({
+      display: [$browser_alternatives],
+        reject: {  
+            $rejects
+        },
+        imagePath: '/$path_to_jreject/images/',
+        $opts
+      }); 
+      return false;  
     }
-  })(jQuery);
 EOT;
-  drupal_add_js($js, array("type" => "inline"));
+  drupal_add_js($js, "inline", "footer");
 }
 
 /**
@@ -64,7 +59,7 @@ function jreject_is_lib_installed($silent = FALSE) {
  * Implements hook_menu().
  */
 function jreject_menu() {
-  $items['admin/config/system/jreject'] = array(
+  $items['admin/settings/jreject'] = array(
     'title' => 'jReject Configuration',
     'description' => 'Configure jReject integration',
     'page callback' => 'drupal_get_form',
@@ -72,12 +67,12 @@ function jreject_menu() {
     'access arguments' => array('administer users'),
     'file' => 'jreject.admin.inc',
   );
-  $items['admin/config/system/jreject/configure'] = array(
+  $items['admin/settings/jreject/configure'] = array(
     'title' => 'General Configuration',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
-  $items['admin/config/system/jreject/options'] = array(
+  $items['admin/settings/jreject/options'] = array(
     'title' => 'Options',
     'description' => 'Configure jReject Options',
     'page callback' => 'drupal_get_form',
@@ -87,7 +82,7 @@ function jreject_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => -5,
   );
-  $items['admin/config/system/jreject/browsers'] = array(
+  $items['admin/settings/jreject/browsers'] = array(
     'title' => 'Browser Configuration',
     'description' => 'Configure jReject Browser Settings',
     'page callback' => 'drupal_get_form',
@@ -97,7 +92,7 @@ function jreject_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => -4,
   );
-  $items['admin/config/system/jreject/alternatives'] = array(
+  $items['admin/settings/jreject/alternatives'] = array(
     'title' => 'Browser Alternatives',
     'description' => 'Configure jReject Browser Alternatives',
     'page callback' => 'drupal_get_form',
@@ -132,14 +127,6 @@ function jreject_get_rejects() {
 function jreject_get_options() {
   $conf = variable_get('jreject_options_alpha', array()) + variable_get('jreject_options_beta', array());
   $out = array();
-
-  // Translation for some configs.
-  $to_translate = array('header', 'paragraph1', 'paragraph2', 'closeMessage', 'closeLink');
-  foreach($conf as $ci => $cv) {
-    if(in_array($ci, $to_translate)) {
-      $conf[$ci] = t($conf[$ci]);
-    }
-  }
   foreach ($conf as $param => $value) {
     if (is_int($value)) {
       $value = $value ? "true" : "false"; //for javascript
@@ -147,7 +134,7 @@ function jreject_get_options() {
     else {
       $value = is_numeric($value) ? $value : '"' . $value . '"';
     }
-    $out[] = $param . ": " . str_replace(array("\r\n", "\n", "\r"), "<br />", $value);
+    $out[] = $param . ": " . $value;
   }
   return implode(", ", $out);
 }
