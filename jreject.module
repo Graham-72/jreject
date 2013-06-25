@@ -132,6 +132,14 @@ function jreject_get_rejects() {
 function jreject_get_options() {
   $conf = variable_get('jreject_options_alpha', array()) + variable_get('jreject_options_beta', array());
   $out = array();
+
+  // Translation for some configs.
+  $to_translate = array('header', 'paragraph1', 'paragraph2', 'closeMessage', 'closeLink');
+  foreach($conf as $ci => $cv) {
+    if(in_array($ci, $to_translate)) {
+      $conf[$ci] = t($conf[$ci]);
+    }
+  }
   foreach ($conf as $param => $value) {
     if (is_int($value)) {
       $value = $value ? "true" : "false"; //for javascript
