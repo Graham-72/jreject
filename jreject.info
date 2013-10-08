@@ -6,3 +6,5 @@ package = "Interface"
 files[] = jreject.admin.inc
 files[] = jreject.install
 files[] = jreject.module
+
+dependencies[] = libraries (2.x)
