@@ -4,3 +4,5 @@ core = 7.x
 package = "Interface"
 
 dependencies[] = libraries (2.x)
+
+configure = admin/config/system/jreject
