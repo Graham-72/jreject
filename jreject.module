@@ -81,7 +81,7 @@ function jreject_get_rejects() {
   foreach ($conf as $browser => $details) {
     foreach ($details as $version => $reject) {
       if ($reject) {
-        $out[] = check_plain("$browser . $version : true");
+        $out[] = "$browser$version: true";
       }
     }
   }
