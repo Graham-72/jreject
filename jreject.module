@@ -17,7 +17,7 @@ function jreject_menu() {
     'description' => 'Configure jReject integration',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jreject_configure_system'),
-    'access arguments' => array('administer users'),
+    'access arguments' => array('administer jreject'),
     'file' => 'jreject.admin.inc',
   );
   $items['admin/config/system/jreject/configure'] = array(
@@ -30,7 +30,7 @@ function jreject_menu() {
     'description' => 'Configure jReject Options',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jreject_configure_options'),
-    'access arguments' => array('administer users'),
+    'access arguments' => array('administer jreject'),
     'file' => 'jreject.admin.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => -5,
@@ -40,7 +40,7 @@ function jreject_menu() {
     'description' => 'Configure jReject Browser Settings',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jreject_configure_browsers'),
-    'access arguments' => array('administer users'),
+    'access arguments' => array('administer jreject'),
     'file' => 'jreject.admin.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => -4,
@@ -50,12 +50,26 @@ function jreject_menu() {
     'description' => 'Configure jReject Browser Alternatives',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jreject_configure_alternatives'),
-    'access arguments' => array('administer users'),
+    'access arguments' => array('administer jreject'),
     'file' => 'jreject.admin.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => -3,
   );
   return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function jreject_permission() {
+  $permissions = array();
+
+  $permissions['administer jreject'] = array(
+    'title' => t('Administer jReject'),
+    'description' => t("Enable jReject, change it's settings, and edit it's rejection messages."),
+  );
+
+  return $permissions;
 }
 
 /**
@@ -67,7 +81,7 @@ function jreject_get_rejects() {
   foreach ($conf as $browser => $details) {
     foreach ($details as $version => $reject) {
       if ($reject) {
-        $out[] = $browser . $version . ": true";
+        $out[] = check_plain("$browser . $version : true");
       }
     }
   }
@@ -93,9 +107,9 @@ function jreject_get_options() {
       $value = $value ? "true" : "false"; //for javascript
     }
     else {
-      $value = is_numeric($value) ? $value : '"' . $value . '"';
+      $value = is_numeric($value) ? floatval($value) : '"' . check_plain($value) . '"';
     }
-    $out[] = $param . ": " . str_replace(array("\r\n", "\n", "\r"), "<br />", $value);
+    $out[] = check_plain($param) . ": " . str_replace(array("\r\n", "\n", "\r"), "<br />", $value);
   }
   return implode(", ", $out);
 }
@@ -108,7 +122,7 @@ function jreject_get_browser_alternatives() {
   $out = array();
   foreach ($conf as $browser => $enabled) {
     if ($enabled) {
-      $out[] = '"' . $browser . '"';
+      $out[] = '"' . check_plain($browser) . '"';
     }
   }
   return implode(", ", $out);
