@@ -152,6 +152,7 @@ function jreject_configure_browsers() {
     foreach ($details as $human_name => $versions) {
       $form[$machine_name] = array(
         '#type' => 'fieldset',
+        // @todo use i18n_string?
         '#title' => t('@name', array("@name" => $human_name)),
         '#tree' => TRUE,
         '#collapsible' => TRUE,
@@ -160,6 +161,7 @@ function jreject_configure_browsers() {
         $form[$machine_name][$v] = array(
           '#type' => 'checkbox',
           '#default_value' => isset($conf[$machine_name][$v]) ? $conf[$machine_name][$v] : 0,
+          // @todo use i18n_string?
           '#title' => t('@name @version', array("@name" => $human_name, "@version" => $v)),
         );
       }
@@ -187,32 +189,32 @@ function jreject_configure_alternatives() {
   $form['jreject_msie'] = array(
     '#type' => 'checkbox',
     '#default_value' => $conf['msie'],
-    '#title' => t('Internet Explorer'),
+    '#title' => 'Internet Explorer',
   );
   $form['jreject_firefox'] = array(
     '#type' => 'checkbox',
     '#default_value' => $conf['firefox'],
-    '#title' => t('Firefox'),
+    '#title' => 'Firefox',
   );
   $form['jreject_safari'] = array(
     '#type' => 'checkbox',
     '#default_value' => $conf['safari'],
-    '#title' => t('Safari'),
+    '#title' => 'Safari',
   );
   $form['jreject_opera'] = array(
     '#type' => 'checkbox',
     '#default_value' => $conf['opera'],
-    '#title' => t('Opera'),
+    '#title' => 'Opera',
   );
   $form['jreject_chrome'] = array(
     '#type' => 'checkbox',
     '#default_value' => $conf['chrome'],
-    '#title' => t('Chrome'),
+    '#title' => 'Chrome',
   );
   $form['jreject_gcf'] = array(
     '#type' => 'checkbox',
     '#default_value' => $conf['gcf'],
-    '#title' => t('Google Chrome Frame'),
+    '#title' => 'Google Chrome Frame',
     '#description' => t('If selected, this option will only appear for users of Internet Explorer.'),
   );
   $form['submit'] = array(
