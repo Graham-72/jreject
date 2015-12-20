@@ -11,6 +11,7 @@
  * see jreject.module.
  */
 function jreject_configure_system() {
+  // @todo use i18n_string.
   $conf = variable_get('jreject_options_alpha', array());
   $form = array();
   $form['jreject_enable'] = array(
@@ -186,8 +187,8 @@ function jreject_configure_alternatives() {
   $form = array();
   $form['intro'] = array(
     '#type' => 'item',
-    '#markup' => '<p>Select which browsers you\'d like to present as upgrades in the modal window.
-                      It is recommended that you choose at least three.</p>',
+    '#markup' => '<p>' . t("Select which browsers you'd like to present as upgrades in the modal window.
+                      It is recommended that you choose at least three.") . '</p>',
   );
   $form['jreject_msie'] = array(
     '#type' => 'checkbox',

@@ -68,8 +68,8 @@ function jreject_update_7001() {
 
   $jreject_browser_config = variable_get('jreject_browser_config', array());
   if (!empty($jreject_browser_config)) {
-    foreach ($jreject_browser_config as $key => $values) {
-      if (isset($jreject_reject_browsers[$key])) {
+    foreach ($jreject_browser_config as $browser_name => $values) {
+      if (isset($jreject_reject_browsers[$browser_name])) {
         $reject_version = 0;
         foreach ($values as $version => $enabled) {
           if ($enabled) {
@@ -77,11 +77,11 @@ function jreject_update_7001() {
           }
         }
         if ($reject_version) {
-          $jreject_reject_browsers[$key]['enabled'] = 1;
-          $jreject_reject_browsers[$key]['reject_version'] = $reject_version;
+          $jreject_reject_browsers[$browser_name]['enabled'] = 1;
+          $jreject_reject_browsers[$browser_name]['reject_version'] = $reject_version;
         }
         else {
-          $jreject_reject_browsers[$key]['enabled'] = 0;
+          $jreject_reject_browsers[$browser_name]['enabled'] = 0;
         }
       }
     }

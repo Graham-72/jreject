@@ -59,6 +59,45 @@ function jreject_menu() {
 }
 
 /**
+ * Implements hook_init()
+ */
+function jreject_init() {
+  //Always bail if the killswitch is engaged.
+  if (!variable_get('jreject_enable', FALSE)) {
+    return;
+  }
+  $library = libraries_load('jreject');
+  if ($library && !empty($library['loaded'])) {
+    $path = $library['library path'];
+    $rejects = jreject_get_rejects();
+    $opts = jreject_get_options();
+    $browser_alternatives = jreject_get_browser_alternatives();
+    $js = <<<EOT
+    (function($) {
+      Drupal.behaviors.jReject = {
+        attach: function (context, settings) {
+          $.reject({
+            display: [$browser_alternatives],
+            reject: {
+              $rejects
+            },
+            imagePath: '/$path/images/',
+            $opts
+          });
+          return false;
+        }
+      }
+    })(jQuery);
+EOT;
+    drupal_add_js($js, array("type" => "inline"));
+  }
+  elseif (php_sapi_name() != "cli") {
+    $message = t('Missing or incomplete installation of the jReject library! Please follow the instructions from README.txt to get it.');
+    drupal_set_message($message, 'error');
+  }
+}
+
+/**
  * Implements hook_permission().
  */
 function jreject_permission() {
@@ -74,19 +113,19 @@ function jreject_permission() {
 
 /**
  * Retrieve the rejection settings for use in hook_init()
-*/
+ */
 function jreject_get_rejects() {
   $jreject_reject_browsers = jreject_get_reject_browsers();
   $out = array();
-  foreach ($jreject_reject_browsers as $key => $options) {
+  foreach ($jreject_reject_browsers as $browser_name => $options) {
     if (!empty($options['enabled'])) {
       if (empty($options['reject_version'])) {
         // Reject all browsers.
-        $out[] = $key . ': true';
+        $out[] = $browser_name . ': true';
       }
       else {
         // Reject specific number of browser and lower.
-        $out[] = $key . ': ' . $options['reject_version'];
+        $out[] = $browser_name . ': ' . $options['reject_version'];
       }
     }
   }
@@ -95,7 +134,7 @@ function jreject_get_rejects() {
 
 /**
  * Retrieve the jReject options for use in hook_init()
-*/
+ */
 function jreject_get_options() {
   $conf = variable_get('jreject_options_alpha', array()) + variable_get('jreject_options_beta', array());
   $out = array();
@@ -121,7 +160,7 @@ function jreject_get_options() {
 
 /**
  * Retrieve the browser alternative settings for use in hook_init()
-*/
+ */
 function jreject_get_browser_alternatives() {
   $conf = variable_get('jreject_browser_alternatives', array());
   $out = array();
@@ -163,45 +202,6 @@ function jreject_libraries_info() {
 
 
 /**
- * Implements hook_init()
-*/
-function jreject_init() {
-  //Always bail if the killswitch is engaged.
-  if (!variable_get('jreject_enable', FALSE)) {
-    return;
-  }
-  $library = libraries_load('jreject');
-  if ($library && !empty($library['loaded'])) {
-    $path = $library['library path'];
-    $rejects = jreject_get_rejects();
-    $opts = jreject_get_options();
-    $browser_alternatives = jreject_get_browser_alternatives();
-    $js = <<<EOT
-    (function($) {
-      Drupal.behaviors.jReject = {
-        attach: function (context, settings) {
-          $.reject({
-            display: [$browser_alternatives],
-            reject: {  
-              $rejects
-            },
-            imagePath: '/$path/images/',
-            $opts
-          }); 
-          return false;  
-        }
-      }
-    })(jQuery);
-EOT;
-    drupal_add_js($js, array("type" => "inline"));
-  }
-  elseif (php_sapi_name() != "cli") {
-    $message = t('Missing or incomplete installation of the jReject library! Please follow the instructions from README.txt to get it.');
-    drupal_set_message($message, 'error');
-  }
-}
-
-/**
  * Gets list of available browsers.
  *
  * @return array
@@ -224,32 +224,32 @@ function jreject_get_reject_browsers() {
 function jreject_get_list_browsers() {
   return array(
     'msie' => array(
-      'label' => t('Internet explorer'),
+      'label' => 'Internet explorer',
       'enabled' => 1,
       'reject_version' => 6,
     ),
     'firefox' => array(
-      'label' => t('Firefox'),
+      'label' => 'Firefox',
       'enabled' => 1,
       'reject_version' => 9,
     ),
     'chrome' => array(
-      'label' => t('Chrome'),
+      'label' => 'Chrome',
       'enabled' => 1,
       'reject_version' => 15,
     ),
     'safari' => array(
-      'label' => t('Safari'),
+      'label' => 'Safari',
       'enabled' => 1,
       'reject_version' => 4,
     ),
     'opera' => array(
-      'label' => t('Opera'),
+      'label' => 'Opera',
       'enabled' => 1,
       'reject_version' => 9,
     ),
-    'konqueror' => array(
-      'label' => t('Konqueror'),
+    'gcf' => array(
+      'label' => 'Google Chrome Frame',
       'enabled' => 0,
       'reject_version' => 6,
     ),
