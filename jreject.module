@@ -76,12 +76,17 @@ function jreject_permission() {
  * Retrieve the rejection settings for use in hook_init()
 */
 function jreject_get_rejects() {
-  $conf = variable_get('jreject_browser_config', array());
+  $jreject_reject_browsers = jreject_get_reject_browsers();
   $out = array();
-  foreach ($conf as $browser => $details) {
-    foreach ($details as $version => $reject) {
-      if ($reject) {
-        $out[] = "$browser$version: true";
+  foreach ($jreject_reject_browsers as $key => $options) {
+    if (!empty($options['enabled'])) {
+      if (empty($options['reject_version'])) {
+        // Reject all browsers.
+        $out[] = $key . ': true';
+      }
+      else {
+        // Reject specific number of browser and lower.
+        $out[] = $key . ': ' . $options['reject_version'];
       }
     }
   }
@@ -176,9 +181,9 @@ function jreject_init() {
       Drupal.behaviors.jReject = {
         attach: function (context, settings) {
           $.reject({
-          display: [$browser_alternatives],
+            display: [$browser_alternatives],
             reject: {  
-                $rejects
+              $rejects
             },
             imagePath: '/$path/images/',
             $opts
@@ -194,4 +199,59 @@ EOT;
     $message = t('Missing or incomplete installation of the jReject library! Please follow the instructions from README.txt to get it.');
     drupal_set_message($message, 'error');
   }
+}
+
+/**
+ * Gets list of available browsers.
+ *
+ * @return array
+ */
+function jreject_get_reject_browsers() {
+  $jreject_reject_browsers = variable_get('jreject_reject_browsers', array());
+
+  if (empty($jreject_reject_browsers)) {
+    $jreject_reject_browsers = jreject_get_list_browsers();
+  }
+
+  return $jreject_reject_browsers;
+}
+
+/**
+ * Returns list of supported browsers and default values.
+ *
+ * @return array
+ */
+function jreject_get_list_browsers() {
+  return array(
+    'msie' => array(
+      'label' => t('Internet explorer'),
+      'enabled' => 1,
+      'reject_version' => 6,
+    ),
+    'firefox' => array(
+      'label' => t('Firefox'),
+      'enabled' => 1,
+      'reject_version' => 9,
+    ),
+    'chrome' => array(
+      'label' => t('Chrome'),
+      'enabled' => 1,
+      'reject_version' => 15,
+    ),
+    'safari' => array(
+      'label' => t('Safari'),
+      'enabled' => 1,
+      'reject_version' => 4,
+    ),
+    'opera' => array(
+      'label' => t('Opera'),
+      'enabled' => 1,
+      'reject_version' => 9,
+    ),
+    'konqueror' => array(
+      'label' => t('Konqueror'),
+      'enabled' => 0,
+      'reject_version' => 6,
+    ),
+  );
 }

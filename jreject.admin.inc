@@ -139,38 +139,41 @@ function jreject_configure_browsers() {
   $form = array();
   $form['intro'] = array(
     '#type' => 'item',
-    '#markup' => '<p>Select the browser types and versions you want to display the modal popup for:</p>',
+    '#markup' => t('Select the browser types and versions you want to display the modal popup for:'),
   );
-  $conf = variable_get('jreject_browser_config', array());
-  $browsers = array("msie" => array("Internet Explorer" => range(5, 10)),
-                    "firefox" => array("Firefox" => range(2, 24)),
-                    "chrome" => array("Chrome" => range(1, 30)),
-                    "safari" => array("Safari" => range(1, 6)),
-                    "opera" => array("Opera" => range(1, 16)),
-                    );
-  foreach ($browsers as $machine_name => $details) {
-    foreach ($details as $human_name => $versions) {
-      $form[$machine_name] = array(
-        '#type' => 'fieldset',
-        // @todo use i18n_string?
-        '#title' => t('@name', array("@name" => $human_name)),
-        '#tree' => TRUE,
-        '#collapsible' => TRUE,
-      );
-      foreach ($versions as $v) {
-        $form[$machine_name][$v] = array(
-          '#type' => 'checkbox',
-          '#default_value' => isset($conf[$machine_name][$v]) ? $conf[$machine_name][$v] : 0,
-          // @todo use i18n_string?
-          '#title' => t('@name @version', array("@name" => $human_name, "@version" => $v)),
-        );
-      }
-    }  
+
+  $jreject_reject_browsers = jreject_get_reject_browsers();
+
+  $form['jreject_reject_browsers'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Reject browsers'),
+    '#tree' => TRUE,
+  );
+
+  foreach (jreject_get_list_browsers() as $key => $options) {
+    $form['jreject_reject_browsers'][$key] = array(
+      '#type' => 'fieldset',
+      '#title' => t('@label settings', array('@label' => $options['label'])),
+      '#tree' => TRUE,
+    );
+    $form['jreject_reject_browsers'][$key]['enabled'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Reject browser @label', array('@label' => $options['label'])),
+      '#default_value' => isset($jreject_reject_browsers[$key]['enabled']) ?
+        $jreject_reject_browsers[$key]['enabled'] : 0,
+    );
+    $form['jreject_reject_browsers'][$key]['reject_version'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Highest number of browser to reject'),
+      '#default_value' => isset($jreject_reject_browsers[$key]['reject_version']) ?
+        $jreject_reject_browsers[$key]['reject_version'] : '',
+      '#description' => t('Leave empty if need to reject all versions.'),
+      '#element_validate' => array('element_validate_integer_positive'),
+    );
   }
-  $form['submit'] = array(
-    "#type" => 'submit',
-    '#value' => t('Save configuration'),
-  );
+
+  $form = system_settings_form($form);
+
   return $form;
 }
 
@@ -222,21 +225,6 @@ function jreject_configure_alternatives() {
     '#value' => t('Save configuration'),
   );
   return $form;
-}
-
-/**
- * Submit functions for the above forms.
- */
-function jreject_configure_browsers_submit($form, &$form_state) {
-  variable_del('jreject_browser_config');
-  $config = array();
-  foreach ($form_state['values'] as $k => $item) {
-    if (is_array($item)) {
-      $config[$k] = $item;
-    }
-  }
-  variable_set('jreject_browser_config', $config);
-  drupal_set_message(t("Saved browser settings."));
 }
 
 function jreject_configure_system_submit($form, &$form_state) {
