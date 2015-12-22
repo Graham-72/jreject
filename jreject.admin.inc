@@ -68,6 +68,7 @@ function jreject_configure_system() {
     "#type" => 'submit',
     '#value' => t('Save configuration'),
   );
+  // @todo use system settings form.
   return $form;
 }
 
@@ -129,6 +130,7 @@ function jreject_configure_options() {
     "#type" => 'submit',
     '#value' => t('Save configuration'),
   );
+  // @todo use system settings form.
   return $form;
 }
 
@@ -225,6 +227,7 @@ function jreject_configure_alternatives() {
     "#type" => 'submit',
     '#value' => t('Save configuration'),
   );
+  // @todo use system settings form.
   return $form;
 }
 
@@ -252,7 +255,7 @@ function jreject_configure_alternatives_submit($form, &$form_state) {
 
 /**
  * Utility: prepares form values to be saved.
-*/
+ */
 function jreject_prepare_settings($form_state) {
   $config = array();
   foreach ($form_state['values'] as $k => $item) {

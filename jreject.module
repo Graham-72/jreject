@@ -140,9 +140,15 @@ function jreject_get_options() {
   $out = array();
 
   // Translation for some configs.
-  $to_translate = array('header', 'paragraph1', 'paragraph2', 'closeMessage', 'closeLink');
-  foreach($conf as $ci => $cv) {
-    if(in_array($ci, $to_translate)) {
+  $to_translate = array(
+    'header',
+    'paragraph1',
+    'paragraph2',
+    'closeMessage',
+    'closeLink'
+  );
+  foreach ($conf as $ci => $cv) {
+    if (in_array($ci, $to_translate)) {
       $conf[$ci] = t($conf[$ci]);
     }
   }
@@ -153,7 +159,11 @@ function jreject_get_options() {
     else {
       $value = is_numeric($value) ? floatval($value) : '"' . check_plain($value) . '"';
     }
-    $out[] = check_plain($param) . ": " . str_replace(array("\r\n", "\n", "\r"), "<br />", $value);
+    $out[] = check_plain($param) . ": " . str_replace(array(
+        "\r\n",
+        "\n",
+        "\r"
+      ), "<br />", $value);
   }
   return implode(", ", $out);
 }

@@ -25,7 +25,7 @@ function jreject_install() {
     'closeURL' => '#',
   );
   variable_set('jreject_options_alpha', $options_alpha);
-  
+
   $options_beta = array(
     'close' => 1,
     'closeESC' => 1,
@@ -36,7 +36,7 @@ function jreject_install() {
     'fadeOutTime' => 'fast',
   );
   variable_set('jreject_options_beta', $options_beta);
-  
+
   $alts = array(
     'msie' => 1,
     'firefox' => 1,

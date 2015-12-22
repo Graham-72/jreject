@@ -1,12 +1,12 @@
 <?php
 /**
-  * @file
-  *   drush integration for imagesloaded.
-  */
+ * @file
+ *   drush integration for imagesloaded.
+ */
 
- /**
-  * The URI to the jReject library.
-  */
+/**
+ * The URI to the jReject library.
+ */
 define('ZIP_DOWNLOAD_URI', 'https://codeload.github.com/TurnWheel/jReject/zip/master');
 
 /*
@@ -21,8 +21,7 @@ function jreject_drush_command() {
     'callback' => 'jreject_drush_download',
     'description' => dt('Downloads the required jReject library from https://github.com/TurnWheel/jReject.'),
     'aliases' => array('jrdl'),
-    'arguments' => array(
-    ),
+    'arguments' => array(),
   );
   return $items;
 }
@@ -30,7 +29,7 @@ function jreject_drush_command() {
 /*
  * Defining drush command implementation.
  */
-function jreject_drush_download(){
+function jreject_drush_download() {
   if (function_exists('libraries_get_path')) {
     $path = libraries_get_path('jreject');
     if ($path === FALSE) {
@@ -52,9 +51,9 @@ function jreject_drush_download(){
     return TRUE;
   }
   //omg this is ugly
-  elseif (drush_op('chdir', $path . "/..") && (drush_shell_exec('curl -O '. ZIP_DOWNLOAD_URI) || drush_shell_exec('wget --no-check-certificate ' . ZIP_DOWNLOAD_URI))
+  elseif (drush_op('chdir', $path . "/..") && (drush_shell_exec('curl -O ' . ZIP_DOWNLOAD_URI) || drush_shell_exec('wget --no-check-certificate ' . ZIP_DOWNLOAD_URI))
     && drush_shell_exec('unzip master') && drush_shell_exec('mv jReject-master/* jreject') && drush_shell_exec('rmdir jReject-master') && drush_shell_exec('rm master')
-    ) {
+  ) {
     drush_log(dt('The latest jReject library has been downloaded to @path', array('@path' => $path)), 'success');
     return TRUE;
   }
