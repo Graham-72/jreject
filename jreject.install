@@ -60,6 +60,55 @@ function jreject_uninstall() {
 }
 
 /**
+ * Implements hook_requirements().
+ */
+function jreject_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  $title = $t('jReject library');
+
+  // Only output errors on the status report. Don't block installation or updates.
+  if ($phase === 'runtime') {
+    $jreject_library = libraries_detect('jreject');
+    $enabled = (bool) variable_get('jreject_enable', FALSE);
+
+    if ($jreject_library['installed'] && $enabled) {
+      $requirements['jreject'] = array(
+        'title' => $title,
+        'value' => $t('Version @version', array('@version' => $jreject_library['version'])),
+        'severity' => REQUIREMENT_OK,
+      );
+    }
+    elseif ($jreject_library['installed'] && !$enabled) {
+      $requirements['jreject'] = array(
+        'title' => $title,
+        'value' => $t('Library version @version installed, but it is disabled.', array(
+          '@version' => $jreject_library['version'],
+        )),
+        'description' => $t('The jReject library is installed, but it is disabled in the jReject module configuration. Enable it in <a href="@link">the jReject module general configuration</a>.', array(
+          '@link' => url('admin/config/system/jreject'),
+        )),
+        'severity' => REQUIREMENT_WARNING,
+      );
+    }
+    else {
+      $requirements['jreject'] = array(
+        'title' => $title,
+        'value' => $jreject_library['error'],
+        'description' => $jreject_library['error message'] . '<br />' . t('The <a href="@module_url">jReject module</a> needs this library to function properly. <a href="@download_url">Download it</a> and install it to <code>@location</code>.', array(
+            '@module_url' => 'https://www.drupal.org/project/jreject',
+            '@download_url' => $jreject_library['download url'],
+            '@location' => 'sites/all/libraries/jreject',
+          )),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
  * Update browser config.
  */
 function jreject_update_7001() {
