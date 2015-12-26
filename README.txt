@@ -56,24 +56,11 @@ Simply visit any of this module's configuration pages and look for a warning.
 minimum, you must check the "Enable jReject" box.
 
 
--- CUSTOMIZATION --
-
-To be written
-
-
--- TROUBLESHOOTING --
-
-To be written
-
--- FAQ --
-
-To be written
-
-
 -- CONTACT --
 
 Current maintainers:
 * Domenic Santangelo (entendu) - http://drupal.org/user/173461
+* Eugene Ilyin (eugene.ilyin) - https://drupal.org/user/1767626
 
 
 This project has been sponsored by:
