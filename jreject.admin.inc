@@ -217,12 +217,6 @@ function jreject_configure_alternatives() {
     '#default_value' => $conf['chrome'],
     '#title' => 'Chrome',
   );
-  $form['jreject_gcf'] = array(
-    '#type' => 'checkbox',
-    '#default_value' => $conf['gcf'],
-    '#title' => 'Google Chrome Frame',
-    '#description' => t('If selected, this option will only appear for users of Internet Explorer.'),
-  );
   $form['submit'] = array(
     "#type" => 'submit',
     '#value' => t('Save configuration'),

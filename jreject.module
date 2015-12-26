@@ -258,10 +258,5 @@ function jreject_get_list_browsers() {
       'enabled' => 1,
       'reject_version' => 9,
     ),
-    'gcf' => array(
-      'label' => 'Google Chrome Frame',
-      'enabled' => 0,
-      'reject_version' => 6,
-    ),
   );
 }

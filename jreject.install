@@ -43,7 +43,6 @@ function jreject_install() {
     'safari' => 1,
     'opera' => 1,
     'chrome' => 1,
-    'gcf' => 1,
   );
   variable_set('jreject_browser_alternatives', $alts);
 }
@@ -91,4 +90,18 @@ function jreject_update_7001() {
 
   // Delete old setting.
   variable_del('jreject_browser_config');
+}
+
+/**
+ * Update browser alternatives.
+ */
+function jreject_update_7002() {
+  $alts = array(
+    'msie' => 1,
+    'firefox' => 1,
+    'safari' => 1,
+    'opera' => 1,
+    'chrome' => 1,
+  );
+  variable_set('jreject_browser_alternatives', $alts);
 }
