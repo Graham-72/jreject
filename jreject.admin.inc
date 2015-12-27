@@ -167,7 +167,7 @@ function jreject_configure_browsers() {
     );
     $form['jreject_reject_browsers'][$key]['reject_version'] = array(
       '#type' => 'textfield',
-      '#title' => t('Highest number of browser to reject'),
+      '#title' => t('Highest version of browser to reject'),
       '#default_value' => isset($jreject_reject_browsers[$key]['reject_version']) ?
         $jreject_reject_browsers[$key]['reject_version'] : '',
       '#description' => t('Leave empty if need to reject all versions.'),
