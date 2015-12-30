@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *   drush integration for imagesloaded.
+ * Drush integration for imagesloaded.
  */
 
 /**
@@ -9,11 +9,8 @@
  */
 define('ZIP_DOWNLOAD_URI', 'https://codeload.github.com/TurnWheel/jReject/zip/master');
 
-/*
+/**
  * Implements hook_drush_command().
- *
- * @return
- *  An associative array describing your command(s).
  */
 function jreject_drush_command() {
   $items = array();
@@ -26,7 +23,7 @@ function jreject_drush_command() {
   return $items;
 }
 
-/*
+/**
  * Defining drush command implementation.
  */
 function jreject_drush_download() {
@@ -45,12 +42,12 @@ function jreject_drush_download() {
     drush_mkdir($path);
   }
 
-  // Download the file and report back
+  // Download the file and report back.
   if (is_file($path . 'js/jquery.reject.js')) {
     drush_log('jReject already present. No download required.', 'ok');
     return TRUE;
   }
-  //omg this is ugly
+  // Omg this is ugly.
   elseif (drush_op('chdir', $path . "/..") && (drush_shell_exec('curl -O ' . ZIP_DOWNLOAD_URI) || drush_shell_exec('wget --no-check-certificate ' . ZIP_DOWNLOAD_URI))
     && drush_shell_exec('unzip master') && drush_shell_exec('mv jReject-master/* jreject') && drush_shell_exec('rmdir jReject-master') && drush_shell_exec('rm master')
   ) {
@@ -63,7 +60,7 @@ function jreject_drush_download() {
   }
 }
 
-/*
+/**
  * Implements drush_module_post_command().
  */
 function drush_jreject_post_pm_enable() {
@@ -79,13 +76,8 @@ function drush_jreject_post_pm_enable() {
   }
 }
 
-/*
+/**
  * Implements hook_drush_help().
- *
- * @param
- *  A string with the help section (prepend with 'drush:')
- * @return
- *  A string with the help text for your command.
  */
 function jreject_drush_help($section) {
   switch ($section) {

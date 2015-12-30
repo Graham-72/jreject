@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @brief jReject install file
+ * jReject install file
  *
  * This file contains all the installation functions used by the module.
  * Mostly it sets sane defaults.
@@ -95,11 +95,14 @@ function jreject_requirements($phase) {
       $requirements['jreject'] = array(
         'title' => $title,
         'value' => $jreject_library['error'],
-        'description' => $jreject_library['error message'] . '<br />' . t('The <a href="@module_url">jReject module</a> needs this library to function properly. <a href="@download_url">Download it</a> and install it to <code>@location</code>.', array(
+        'description' => $jreject_library['error message'] . '<br />' . t(
+          'The <a href="@module_url">jReject module</a> needs this library to function properly. <a href="@download_url">Download it</a> and install it to <code>@location</code>.',
+          array(
             '@module_url' => 'https://www.drupal.org/project/jreject',
             '@download_url' => $jreject_library['download url'],
             '@location' => 'sites/all/libraries/jreject',
-          )),
+          )
+        ),
         'severity' => REQUIREMENT_ERROR,
       );
     }

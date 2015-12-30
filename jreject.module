@@ -2,9 +2,10 @@
 
 /**
  * @file
- * @brief jReject Drupal integration module.
+ * jReject Drupal integration module.
  *
  * @author Domenic Santangelo (entendu) http://drupal.org/user/173461
+ *
  * @see https://github.com/TurnWheel/jReject
  */
 
@@ -59,10 +60,10 @@ function jreject_menu() {
 }
 
 /**
- * Implements hook_init()
+ * Implements hook_init().
  */
 function jreject_init() {
-  //Always bail if the killswitch is engaged.
+  // Always bail if the killswitch is engaged.
   if (!variable_get('jreject_enable', FALSE)) {
     return;
   }
@@ -112,7 +113,7 @@ function jreject_permission() {
 }
 
 /**
- * Retrieve the rejection settings for use in hook_init()
+ * Retrieve the rejection settings for use in hook_init().
  */
 function jreject_get_rejects() {
   $jreject_reject_browsers = jreject_get_reject_browsers();
@@ -145,7 +146,7 @@ function jreject_get_options() {
     'paragraph1',
     'paragraph2',
     'closeMessage',
-    'closeLink'
+    'closeLink',
   );
   foreach ($conf as $ci => $cv) {
     if (in_array($ci, $to_translate)) {
@@ -154,22 +155,23 @@ function jreject_get_options() {
   }
   foreach ($conf as $param => $value) {
     if (is_int($value)) {
-      $value = $value ? "true" : "false"; //for javascript
+      // For javascript.
+      $value = $value ? "true" : "false";
     }
     else {
       $value = is_numeric($value) ? floatval($value) : '"' . check_plain($value) . '"';
     }
     $out[] = check_plain($param) . ": " . str_replace(array(
-        "\r\n",
-        "\n",
-        "\r"
-      ), "<br />", $value);
+      "\r\n",
+      "\n",
+      "\r"
+    ), "<br />", $value);
   }
   return implode(", ", $out);
 }
 
 /**
- * Retrieve the browser alternative settings for use in hook_init()
+ * Retrieve the browser alternative settings for use in hook_init().
  */
 function jreject_get_browser_alternatives() {
   $conf = variable_get('jreject_browser_alternatives', array());
@@ -192,7 +194,7 @@ function jreject_libraries_info() {
     'name' => 'jReject',
     'vendor url' => 'http://jreject.turnwheel.com/',
     'download url' => 'https://github.com/TurnWheel/jReject',
-    // 1.0.2
+    // 1.0.2.
     'version arguments' => array(
       'file' => 'js/jquery.reject.js',
       'pattern' => '/Version (\d+)/',
@@ -213,8 +215,6 @@ function jreject_libraries_info() {
 
 /**
  * Gets list of available browsers.
- *
- * @return array
  */
 function jreject_get_reject_browsers() {
   $jreject_reject_browsers = variable_get('jreject_reject_browsers', array());
@@ -228,8 +228,6 @@ function jreject_get_reject_browsers() {
 
 /**
  * Returns list of supported browsers and default values.
- *
- * @return array
  */
 function jreject_get_list_browsers() {
   return array(

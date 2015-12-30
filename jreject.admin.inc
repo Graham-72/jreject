@@ -1,14 +1,15 @@
 <?php
 /**
  * @file
- * @brief Admin screen forms to configure the jReject module.
+ * Admin screen forms to configure the jReject module.
  *
  * @author Domenic Santangelo (entendu) http://drupal.org/user/173461
  */
 
 /**
- * jReject main configuration. Admin screen called by the menu system,
- * see jreject.module.
+ * jReject main configuration.
+ *
+ * Admin screen called by the menu system, see jreject.module.
  */
 function jreject_configure_system() {
   // @todo use i18n_string.
@@ -73,8 +74,9 @@ function jreject_configure_system() {
 }
 
 /**
- * jReject options configuration. Admin screen called by the menu system,
- * see jreject.module.
+ * jReject options configuration.
+ *
+ * Admin screen called by the menu system, see jreject.module.
  */
 function jreject_configure_options() {
   $conf = variable_get('jreject_options_beta', array());
@@ -135,8 +137,9 @@ function jreject_configure_options() {
 }
 
 /**
- * jReject browser rejection configuration. Admin screen called by the menu system,
- * see jreject.module.
+ * jReject browser rejection configuration.
+ *
+ * Admin screen called by the menu system, see jreject.module.
  */
 function jreject_configure_browsers() {
   $form = array();
@@ -145,7 +148,7 @@ function jreject_configure_browsers() {
     '#markup' => t('Select the browser types and versions you want to display the modal popup for:'),
   );
 
-  $jreject_reject_browsers = jreject_get_reject_browsers();
+  $browsers = jreject_get_reject_browsers();
 
   $form['jreject_reject_browsers'] = array(
     '#type' => 'fieldset',
@@ -162,14 +165,12 @@ function jreject_configure_browsers() {
     $form['jreject_reject_browsers'][$key]['enabled'] = array(
       '#type' => 'checkbox',
       '#title' => t('Reject browser @label', array('@label' => $options['label'])),
-      '#default_value' => isset($jreject_reject_browsers[$key]['enabled']) ?
-        $jreject_reject_browsers[$key]['enabled'] : 0,
+      '#default_value' => isset($browsers[$key]['enabled']) ? $browsers[$key]['enabled'] : 0,
     );
     $form['jreject_reject_browsers'][$key]['reject_version'] = array(
       '#type' => 'textfield',
       '#title' => t('Highest version of browser to reject'),
-      '#default_value' => isset($jreject_reject_browsers[$key]['reject_version']) ?
-        $jreject_reject_browsers[$key]['reject_version'] : '',
+      '#default_value' => isset($browsers[$key]['reject_version']) ? $browsers[$key]['reject_version'] : '',
       '#description' => t('Leave empty if need to reject all versions.'),
       '#element_validate' => array('element_validate_integer_positive'),
     );
@@ -181,8 +182,9 @@ function jreject_configure_browsers() {
 }
 
 /**
- * jReject alternatives configuration. Admin screen called by the menu system,
- * see jreject.module.
+ * jReject alternatives configuration.
+ *
+ * Admin screen called by the menu system, see jreject.module.
  */
 function jreject_configure_alternatives() {
   $conf = variable_get('jreject_browser_alternatives', array());
@@ -225,6 +227,7 @@ function jreject_configure_alternatives() {
   return $form;
 }
 
+// @todo use system settings form.
 function jreject_configure_system_submit($form, &$form_state) {
   variable_del('jreject_options_alpha');
   $config = jreject_prepare_settings($form_state);
@@ -233,6 +236,7 @@ function jreject_configure_system_submit($form, &$form_state) {
   drupal_set_message(t("Saved options."));
 }
 
+// @todo use system settings form.
 function jreject_configure_options_submit($form, &$form_state) {
   variable_del('jreject_options_beta');
   $config = jreject_prepare_settings($form_state);
@@ -240,6 +244,7 @@ function jreject_configure_options_submit($form, &$form_state) {
   drupal_set_message(t("Saved options."));
 }
 
+// @todo use system settings form.
 function jreject_configure_alternatives_submit($form, &$form_state) {
   variable_del('jreject_browser_alternatives');
   $config = jreject_prepare_settings($form_state);
