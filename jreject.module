@@ -13,20 +13,20 @@
  * Implements hook_menu().
  */
 function jreject_menu() {
-  $items['admin/config/system/jreject'] = array(
+  $items['admin/config/user-interface/jreject'] = array(
     'title' => 'jReject Configuration',
-    'description' => 'Configure jReject integration',
+    'description' => 'Configure jReject integration.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('jreject_configure_system'),
     'access arguments' => array('administer jreject'),
     'file' => 'jreject.admin.inc',
   );
-  $items['admin/config/system/jreject/configure'] = array(
+  $items['admin/config/user-interface/jreject/configure'] = array(
     'title' => 'General Configuration',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
-  $items['admin/config/system/jreject/options'] = array(
+  $items['admin/config/user-interface/jreject/options'] = array(
     'title' => 'Options',
     'description' => 'Configure jReject Options',
     'page callback' => 'drupal_get_form',
@@ -36,7 +36,7 @@ function jreject_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => -5,
   );
-  $items['admin/config/system/jreject/browsers'] = array(
+  $items['admin/config/user-interface/jreject/browsers'] = array(
     'title' => 'Browser Configuration',
     'description' => 'Configure jReject Browser Settings',
     'page callback' => 'drupal_get_form',
@@ -46,7 +46,7 @@ function jreject_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => -4,
   );
-  $items['admin/config/system/jreject/alternatives'] = array(
+  $items['admin/config/user-interface/jreject/alternatives'] = array(
     'title' => 'Browser Alternatives',
     'description' => 'Configure jReject Browser Alternatives',
     'page callback' => 'drupal_get_form',
