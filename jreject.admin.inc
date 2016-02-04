@@ -8,8 +8,6 @@
 
 /**
  * jReject main configuration.
- *
- * Admin screen called by the menu system, see jreject.module.
  */
 function jreject_configure_system() {
   // @todo use i18n_string.
@@ -24,14 +22,14 @@ function jreject_configure_system() {
     '#type' => 'textfield',
     '#size' => 100,
     '#maxlength' => 256,
-    '#default_value' => $conf['header'],
+    '#default_value' => variable_get('jreject_header', ''),
     '#title' => t('Modal header message'),
   );
   $form['jreject_paragraph1'] = array(
     '#type' => 'textarea',
     '#cols' => 60,
     '#rows' => 5,
-    '#default_value' => $conf['paragraph1'],
+    '#default_value' => variable_get('jreject_paragraph1', ''),
     '#title' => t('Modal paragraph 1'),
     '#description' => t('You are encouraged to keep this brief.'),
   );
@@ -39,107 +37,94 @@ function jreject_configure_system() {
     '#type' => 'textarea',
     '#cols' => 60,
     '#rows' => 5,
-    '#default_value' => $conf['paragraph2'],
+    '#default_value' => variable_get('jreject_paragraph2', ''),
     '#title' => t('Modal paragraph 2'),
     '#description' => t('You are encouraged to keep this brief.'),
   );
-  $form['jreject_closeMessage'] = array(
+  $form['jreject_close_message'] = array(
     '#type' => 'textfield',
     '#size' => 100,
     '#maxlength' => 256,
-    '#default_value' => $conf['closeMessage'],
+    '#default_value' => variable_get('jreject_close_message', ''),
     '#title' => t('Modal close message'),
   );
-  $form['jreject_closeLink'] = array(
+  $form['jreject_close_link'] = array(
     '#type' => 'textfield',
     '#size' => 50,
     '#maxlength' => 256,
-    '#default_value' => $conf['closeLink'],
+    '#default_value' => variable_get('jreject_close_link', ''),
     '#title' => t('Modal close message'),
   );
-  $form['jreject_closeURL'] = array(
+  $form['jreject_close_url'] = array(
     '#type' => 'textfield',
     '#size' => 50,
     '#maxlength' => 256,
-    '#default_value' => $conf['closeURL'],
+    '#default_value' => variable_get('jreject_close_url', ''),
     '#title' => t('Modal close URL'),
     '#description' => "If you want to send your users somewhere special when they click the close link, enter the destination here.",
   );
-  $form['submit'] = array(
-    "#type" => 'submit',
-    '#value' => t('Save configuration'),
-  );
-  // @todo use system settings form.
-  return $form;
+
+  return system_settings_form($form);
 }
 
 /**
  * jReject options configuration.
- *
- * Admin screen called by the menu system, see jreject.module.
  */
 function jreject_configure_options() {
-  $conf = variable_get('jreject_options_beta', array());
   $form = array();
   $form['jreject_close'] = array(
     '#type' => 'checkbox',
-    '#default_value' => $conf["close"],
+    '#default_value' => variable_get('jreject_close', 1),
     '#title' => t('Allow closing of modal window?'),
   );
-  $form['jreject_closeESC'] = array(
+  $form['jreject_close_esc'] = array(
     '#type' => 'checkbox',
-    '#default_value' => $conf['closeESC'],
+    '#default_value' => variable_get('jreject_close_esc', 1),
     '#title' => t('Allow closing the modal window with the ESC key?'),
   );
-  $form['jreject_closeCookie'] = array(
+  $form['jreject_close_cookie'] = array(
     '#type' => 'checkbox',
-    '#default_value' => $conf['closeCookie'],
+    '#default_value' => variable_get('jreject_close_cookie', 0),
     '#title' => t('Remember if the window was closed by setting a cookie?'),
   );
-  $form['jreject_overlayBgColor'] = array(
+  $form['jreject_overlay_bg_color'] = array(
     '#type' => 'textfield',
     '#size' => 10,
     '#maxlength' => 7,
-    '#default_value' => $conf['overlayBgColor'] ? $conf['overlayBgColor'] : '#000',
+    '#default_value' => variable_get('jreject_overlay_bg_color', '#000'),
     '#title' => t('Overlay background color'),
     '#description' => "Enter a custom overlay background color in hex.",
   );
-  $form['jreject_overlayOpacity'] = array(
+  $form['jreject_overlay_opacity'] = array(
     '#type' => 'textfield',
     '#size' => 10,
     '#maxlength' => 7,
-    '#default_value' => $conf['overlayOpacity'] ? $conf['overlayOpacity'] : '0.8',
+    '#default_value' => variable_get('jreject_overlay_opacity', '0.8'),
     '#title' => t('Background opacity'),
     '#description' => "Enter a value from 0-1.",
   );
-  $form['jreject_fadeInTime'] = array(
+  $form['jreject_fade_in_time'] = array(
     '#type' => 'textfield',
-    '#size' => 10,
-    '#maxlength' => 7,
-    '#default_value' => $conf['fadeInTime'] ? $conf['fadeInTime'] : 'fast',
     '#title' => t('Modal fade-in speed'),
-    '#description' => "Enter a value ('slow','medium','fast' or integer in ms)",
-  );
-  $form['jreject_fadeOutTime'] = array(
-    '#type' => 'textfield',
     '#size' => 10,
     '#maxlength' => 7,
-    '#default_value' => $conf['fadeOutTime'] ? $conf['fadeOutTime'] : 'fast',
-    '#title' => t('Modal fade-out speed'),
+    '#default_value' => variable_get('jreject_fade_in_time', 'fast'),
     '#description' => "Enter a value ('slow','medium','fast' or integer in ms)",
   );
-  $form['submit'] = array(
-    "#type" => 'submit',
-    '#value' => t('Save configuration'),
+  $form['jreject_fade_out_time'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Modal fade-out speed'),
+    '#size' => 10,
+    '#maxlength' => 7,
+    '#default_value' => variable_get('jreject_fade_out_time', 'fast'),
+    '#description' => "Enter a value ('slow','medium','fast' or integer in ms)",
   );
-  // @todo use system settings form.
-  return $form;
+
+  return system_settings_form($form);
 }
 
 /**
  * jReject browser rejection configuration.
- *
- * Admin screen called by the menu system, see jreject.module.
  */
 function jreject_configure_browsers() {
   $form = array();
@@ -169,9 +154,9 @@ function jreject_configure_browsers() {
     );
     $form['jreject_reject_browsers'][$key]['reject_version'] = array(
       '#type' => 'textfield',
-      '#title' => t('Highest version of browser to reject'),
+      '#title' => t('Version of browser'),
       '#default_value' => isset($browsers[$key]['reject_version']) ? $browsers[$key]['reject_version'] : '',
-      '#description' => t('Leave empty if need to reject all versions.'),
+      '#description' => t('If your version of browser is equal or less than specified, it will be  rejected. Leave empty if need to reject all versions.'),
       '#element_validate' => array('element_validate_integer_positive'),
     );
   }
@@ -183,8 +168,6 @@ function jreject_configure_browsers() {
 
 /**
  * jReject alternatives configuration.
- *
- * Admin screen called by the menu system, see jreject.module.
  */
 function jreject_configure_alternatives() {
   $conf = variable_get('jreject_browser_alternatives', array());
@@ -223,28 +206,13 @@ function jreject_configure_alternatives() {
     "#type" => 'submit',
     '#value' => t('Save configuration'),
   );
-  // @todo use system settings form.
+
   return $form;
 }
 
-// @todo use system settings form.
-function jreject_configure_system_submit($form, &$form_state) {
-  variable_del('jreject_options_alpha');
-  $config = jreject_prepare_settings($form_state);
-  variable_set('jreject_options_alpha', $config);
-  variable_set('jreject_enable', $form_state['values']['jreject_enable']);
-  drupal_set_message(t("Saved options."));
-}
-
-// @todo use system settings form.
-function jreject_configure_options_submit($form, &$form_state) {
-  variable_del('jreject_options_beta');
-  $config = jreject_prepare_settings($form_state);
-  variable_set('jreject_options_beta', $config);
-  drupal_set_message(t("Saved options."));
-}
-
-// @todo use system settings form.
+/**
+ * Submit handler for browser alternatives form.
+ */
 function jreject_configure_alternatives_submit($form, &$form_state) {
   variable_del('jreject_browser_alternatives');
   $config = jreject_prepare_settings($form_state);

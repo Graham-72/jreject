@@ -2,40 +2,20 @@
 
 /**
  * @file
- * jReject install file
- *
- * This file contains all the installation functions used by the module.
- * Mostly it sets sane defaults.
- *
- * @author Domenic Santangelo (entendu) http://drupal.org/user/173461
- *
+ * jReject install file.
  */
+
+require_once __DIR__ . '/jreject.helpers.inc';
 
 /**
  * Implements hook_install().
  */
 function jreject_install() {
-  $options_alpha = array(
-    'enable' => 1,
-    'header' => 'Did you know that your Internet Browser is out of date?',
-    'paragraph1' => 'Your browser is out of date, and may not be compatible with our website. A list of the most popular web browsers can be found below.',
-    'paragraph2' => 'Just click on the icons to get to the download page:',
-    'closeMessage' => 'By closing this window you acknowledge that your experience on this website may be degraded.',
-    'closeLink' => 'Close This Window',
-    'closeURL' => '#',
-  );
-  variable_set('jreject_options_alpha', $options_alpha);
-
-  $options_beta = array(
-    'close' => 1,
-    'closeESC' => 1,
-    'closeCookie' => 0,
-    'overlayBgColor' => '#000',
-    'overlayOpacity' => '0.8',
-    'fadeInTime' => 'fast',
-    'fadeOutTime' => 'fast',
-  );
-  variable_set('jreject_options_beta', $options_beta);
+  // Set default variables.
+  $variables = jreject_default_variables();
+  foreach ($variables as $name => $value) {
+    variable_set($name, $value);
+  }
 
   $alts = array(
     'msie' => 1,
@@ -52,6 +32,7 @@ function jreject_install() {
  * Implements hook_uninstall().
  */
 function jreject_uninstall() {
+  // @todo add algorithm to remove all variables by mask jreject_%
   variable_del('jreject_browser_config');
   variable_del('jreject_options_alpha');
   variable_del('jreject_options_beta');
@@ -156,4 +137,12 @@ function jreject_update_7002() {
     'chrome' => 1,
   );
   variable_set('jreject_browser_alternatives', $alts);
+}
+
+/**
+ * Update browser alternatives.
+ */
+function jreject_update_7003() {
+  variable_del('jreject_options_alpha');
+  jreject_install();
 }

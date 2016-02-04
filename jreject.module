@@ -9,6 +9,8 @@
  * @see https://github.com/TurnWheel/jReject
  */
 
+require_once __DIR__ . '/jreject.helpers.inc';
+
 /**
  * Implements hook_menu().
  */
@@ -137,7 +139,10 @@ function jreject_get_rejects() {
  * Retrieve the jReject options for use in hook_init()
  */
 function jreject_get_options() {
-  $conf = variable_get('jreject_options_alpha', array()) + variable_get('jreject_options_beta', array());
+  $vars = jreject_default_variables();
+  foreach ($vars as $name => $value) {
+    $conf[$name] = variable_get($name);
+  }
   $out = array();
 
   // Translation for some configs.
@@ -150,6 +155,7 @@ function jreject_get_options() {
   );
   foreach ($conf as $ci => $cv) {
     if (in_array($ci, $to_translate)) {
+      // @todo remove this wrong logic.
       $conf[$ci] = t($conf[$ci]);
     }
   }
