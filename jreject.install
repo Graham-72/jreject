@@ -66,7 +66,7 @@ function jreject_requirements($phase) {
           '@version' => $jreject_library['version'],
         )),
         'description' => $t('The jReject library is installed, but it is disabled in the jReject module configuration. Enable it in <a href="@link">the jReject module general configuration</a>.', array(
-          '@link' => url('admin/config/system/jreject'),
+          '@link' => url('admin/config/user-interface/jreject'),
         )),
         'severity' => REQUIREMENT_WARNING,
       );

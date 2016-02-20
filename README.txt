@@ -52,7 +52,7 @@ Simply visit any of this module's configuration pages and look for a warning.
 
 -- CONFIGURATION --
 
-* Customize the module's behavior by visiting /admin/config/system/jreject. At 
+* Customize the module's behavior by visiting /admin/config/user-interface/jreject. At
 minimum, you must check the "Enable jReject" box.
 
 

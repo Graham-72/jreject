@@ -5,4 +5,4 @@ package = "Interface"
 
 dependencies[] = libraries (2.x)
 
-configure = admin/config/system/jreject
+configure = admin/config/user-interface/jreject
