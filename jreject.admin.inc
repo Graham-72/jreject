@@ -60,7 +60,7 @@ function jreject_configure_system() {
     '#maxlength' => 256,
     '#default_value' => variable_get('jreject_close_url', ''),
     '#title' => t('Modal close URL'),
-    '#description' => "If you want to send your users somewhere special when they click the close link, enter the destination here.",
+    '#description' => t('If you want to send your users somewhere special when they click the close link, enter the destination here.'),
   );
 
   return system_settings_form($form);
@@ -92,7 +92,7 @@ function jreject_configure_options() {
     '#maxlength' => 7,
     '#default_value' => variable_get('jreject_overlay_bg_color', '#000'),
     '#title' => t('Overlay background color'),
-    '#description' => "Enter a custom overlay background color in hex.",
+    '#description' => t('Enter a custom overlay background color in hex.'),
   );
   $form['jreject_overlay_opacity'] = array(
     '#type' => 'textfield',
@@ -100,7 +100,7 @@ function jreject_configure_options() {
     '#maxlength' => 7,
     '#default_value' => variable_get('jreject_overlay_opacity', '0.8'),
     '#title' => t('Background opacity'),
-    '#description' => "Enter a value from 0-1.",
+    '#description' => t('Enter a value from 0-1.'),
   );
   $form['jreject_fade_in_time'] = array(
     '#type' => 'textfield',
@@ -108,7 +108,7 @@ function jreject_configure_options() {
     '#size' => 10,
     '#maxlength' => 7,
     '#default_value' => variable_get('jreject_fade_in_time', 'fast'),
-    '#description' => "Enter a value ('slow','medium','fast' or integer in ms)",
+    '#description' => t("Enter a value ('slow','medium','fast' or integer in ms)"),
   );
   $form['jreject_fade_out_time'] = array(
     '#type' => 'textfield',
@@ -116,7 +116,7 @@ function jreject_configure_options() {
     '#size' => 10,
     '#maxlength' => 7,
     '#default_value' => variable_get('jreject_fade_out_time', 'fast'),
-    '#description' => "Enter a value ('slow','medium','fast' or integer in ms)",
+    '#description' => t("Enter a value ('slow','medium','fast' or integer in ms)"),
   );
 
   return system_settings_form($form);
