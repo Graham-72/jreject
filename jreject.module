@@ -141,7 +141,9 @@ function jreject_get_rejects() {
 function jreject_get_options() {
   $vars = jreject_default_variables();
   foreach ($vars as $name => $value) {
-    $conf[$name] = variable_get($name);
+    $conf_name = str_replace('jreject_', '', $name);
+    $conf_name = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $conf_name))));
+    $conf[$conf_name] = variable_get($name);
   }
   $out = array();
 
