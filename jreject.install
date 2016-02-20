@@ -32,12 +32,11 @@ function jreject_install() {
  * Implements hook_uninstall().
  */
 function jreject_uninstall() {
-  // @todo add algorithm to remove all variables by mask jreject_%
-  variable_del('jreject_browser_config');
-  variable_del('jreject_options_alpha');
-  variable_del('jreject_options_beta');
-  variable_del('jreject_browser_alternatives');
-  variable_del('jreject_enable');
+  $variables = jreject_default_variables();
+  $variables[] = 'jreject_browser_alternatives';
+  foreach ($variables as $variable) {
+    variable_delete($variable);
+  }
 }
 
 /**

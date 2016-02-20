@@ -11,7 +11,6 @@
  */
 function jreject_configure_system() {
   // @todo use i18n_string.
-  $conf = variable_get('jreject_options_alpha', array());
   $form = array();
   $form['jreject_enable'] = array(
     '#type' => 'checkbox',
