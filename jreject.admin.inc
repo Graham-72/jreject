@@ -52,7 +52,7 @@ function jreject_configure_system() {
     '#size' => 50,
     '#maxlength' => 256,
     '#default_value' => variable_get('jreject_close_link', ''),
-    '#title' => t('Modal close message'),
+    '#title' => t('Title of the modal close link'),
   );
   $form['jreject_close_url'] = array(
     '#type' => 'textfield',
