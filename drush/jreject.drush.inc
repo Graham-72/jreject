@@ -48,7 +48,7 @@ function jreject_drush_download() {
     return TRUE;
   }
   // Omg this is ugly.
-  elseif (drush_op('chdir', $path . "/..") && (drush_shell_exec('curl -O ' . ZIP_DOWNLOAD_URI) || drush_shell_exec('wget --no-check-certificate ' . ZIP_DOWNLOAD_URI))
+  elseif (drush_op('chdir', $path . "/..") && (drush_shell_exec('curl -O ' . ZIP_DOWNLOAD_URI) || drush_shell_exec('wget ' . ZIP_DOWNLOAD_URI))
     && drush_shell_exec('unzip master') && drush_shell_exec('mv jReject-master/* jreject') && drush_shell_exec('rmdir jReject-master') && drush_shell_exec('rm master')
   ) {
     drush_log(dt('The latest jReject library has been downloaded to @path', array('@path' => $path)), 'success');
